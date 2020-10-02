@@ -11,7 +11,7 @@ namespace Plugin.DefaultHttpClientFactory
     public class DefaultHttpClientFactory : IDefaultHttpClientFactory
     {
         private ISocketsHttpHandlerFactory _httpHandlerFactoryLazy;
-        private IDictionary<string, HttpMessageHandler> _storePrimaryHttpMessageHandler;
+        private IDictionary<string, HttpMessageHandler> _storeHttpMessageHandler;
 
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Plugin.DefaultHttpClientFactory
         public DefaultHttpClientFactory(ISocketsHttpHandlerFactory socketsHttpHandlerFactory)
         {
             _httpHandlerFactoryLazy = socketsHttpHandlerFactory;
-            _storePrimaryHttpMessageHandler = new Dictionary<string, HttpMessageHandler>(StringComparer.InvariantCultureIgnoreCase);
+            _storeHttpMessageHandler = new Dictionary<string, HttpMessageHandler>(StringComparer.InvariantCultureIgnoreCase);
         }
 
         public HttpClient Create()
@@ -108,7 +108,7 @@ namespace Plugin.DefaultHttpClientFactory
         /// <returns></returns>
         private HttpMessageHandler GetOrInstantiatePrimaryHttpMessageHanlder(string key = "default", Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory = null)
         {
-            if (_storePrimaryHttpMessageHandler.TryGetValue(key, out var recovered))
+            if (_storeHttpMessageHandler.TryGetValue(key, out var recovered))
                 return recovered;
             else
             {
@@ -122,9 +122,9 @@ namespace Plugin.DefaultHttpClientFactory
                                 .DecorateWith(retryHanlder);
 
                 if(pipelineFactory?.Invoke(newOne) is HttpMessageHandler pipeline)
-                    _storePrimaryHttpMessageHandler.Add(key, pipeline);
+                    _storeHttpMessageHandler.Add(key, pipeline);
                 else
-                    _storePrimaryHttpMessageHandler.Add(key, newOne);
+                    _storeHttpMessageHandler.Add(key, newOne);
                 return newOne;
             }
         }
