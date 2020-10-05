@@ -10,7 +10,7 @@ namespace Plugin.DefaultHttpClientFactory
 {
     public class DefaultHttpClientFactory : IDefaultHttpClientFactory
     {
-        private ISocketsHttpHandlerFactory _httpHandlerFactoryLazy;
+        private ISocketsHttpHandlerFactory _httpHandlerFactory;
         private IDictionary<string, HttpMessageHandler> _storeHttpMessageHandler;
 
 
@@ -57,7 +57,7 @@ namespace Plugin.DefaultHttpClientFactory
         /// </summary>
         public DefaultHttpClientFactory(ISocketsHttpHandlerFactory socketsHttpHandlerFactory)
         {
-            _httpHandlerFactoryLazy = socketsHttpHandlerFactory;
+            _httpHandlerFactory = socketsHttpHandlerFactory;
             _storeHttpMessageHandler = new Dictionary<string, HttpMessageHandler>(StringComparer.InvariantCultureIgnoreCase);
         }
 
@@ -112,7 +112,7 @@ namespace Plugin.DefaultHttpClientFactory
                 return recovered;
             else
             {
-                var socketsHttpHandlerBuilder = _httpHandlerFactoryLazy.Create();
+                var socketsHttpHandlerBuilder = _httpHandlerFactory.Create();
 
                 //we are decorating the primary message handler with a retry policy HandleTransientHttpError
                 var retryHanlder = GetRetryHandler();
