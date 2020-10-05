@@ -201,17 +201,17 @@ namespace Plugin.DefaultHttpClientFactory
             return this;
         }
 
-        public ISocketsHttpHandlerBuilder SetSslOptions(SslClientAuthenticationOptions value)
-        {
-            _socketsHttpHandler.SslOptions = value;
-            return this;
-        }
+        //public ISocketsHttpHandlerBuilder SetSslOptions(SslClientAuthenticationOptions value)
+        //{
+        //    _socketsHttpHandler.SslOptions = value;
+        //    return this;
+        //}
 
-        public ISocketsHttpHandlerBuilder SetSslOptions(Func<SslClientAuthenticationOptions, SslClientAuthenticationOptions> setterAction)
-        {
-            _socketsHttpHandler.SslOptions = setterAction.Invoke(_socketsHttpHandler.SslOptions);
-            return this;
-        }
+        //public ISocketsHttpHandlerBuilder SetSslOptions(Func<SslClientAuthenticationOptions, SslClientAuthenticationOptions> setterAction)
+        //{
+        //    _socketsHttpHandler.SslOptions = setterAction.Invoke(_socketsHttpHandler.SslOptions);
+        //    return this;
+        //}
 
         public ISocketsHttpHandlerBuilder SetUseCookies(bool value)
         {
