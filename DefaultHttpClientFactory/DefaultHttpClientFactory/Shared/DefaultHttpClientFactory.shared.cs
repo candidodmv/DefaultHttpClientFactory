@@ -63,25 +63,25 @@ namespace Plugin.DefaultHttpClientFactory
 
         public HttpClient Create()
         {
-            var primary = GetOrInstantiatePrimaryHttpMessageHanlder();
+            var primary = GetOrInstantiateHttpMessageHanlder();
             return InstantiateHttpClient(primary);
         }
 
         public HttpClient Create(string clientName)
         {
-            var primary = GetOrInstantiatePrimaryHttpMessageHanlder(clientName);
+            var primary = GetOrInstantiateHttpMessageHanlder(clientName);
             return InstantiateHttpClient(primary);
         }
 
         public HttpClient Create(string clientName, Func<HttpClient, HttpClient> httpClientFactory)
         {
-            var primary = GetOrInstantiatePrimaryHttpMessageHanlder(clientName);
+            var primary = GetOrInstantiateHttpMessageHanlder(clientName);
             return httpClientFactory.Invoke(InstantiateHttpClient(primary));
         }
 
         public HttpClient Create(string clientName, Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory, Func<HttpClient, HttpClient> httpClientFactory = null)
         {
-            var pipeline = GetOrInstantiatePrimaryHttpMessageHanlder(clientName, pipelineFactory);
+            var pipeline = GetOrInstantiateHttpMessageHanlder(clientName, pipelineFactory);
             var httpClient = InstantiateHttpClient(pipeline);
             return httpClientFactory?.Invoke(httpClient) is HttpClient httpClientChanged ? httpClientChanged : httpClient;
         }
@@ -106,7 +106,7 @@ namespace Plugin.DefaultHttpClientFactory
         /// <param name="key">The key that represent the HtttpClient</param>
         /// <param name="pipelineFactory">A factory method to build customs pipeline</param>
         /// <returns></returns>
-        private HttpMessageHandler GetOrInstantiatePrimaryHttpMessageHanlder(string key = "default", Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory = null)
+        private HttpMessageHandler GetOrInstantiateHttpMessageHanlder(string key = "default", Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory = null)
         {
             if (_storeHttpMessageHandler.TryGetValue(key, out var recovered))
                 return recovered;
