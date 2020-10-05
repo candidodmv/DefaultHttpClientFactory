@@ -3,6 +3,9 @@ using System.Net.Http;
 
 namespace Plugin.DefaultHttpClientFactory
 {
+    /// <summary>
+    /// Default HttpClientFactory
+    /// </summary>
     public interface IDefaultHttpClientFactory
     {
         /// <summary>

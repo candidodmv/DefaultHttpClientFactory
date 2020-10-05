@@ -8,6 +8,9 @@ using System.Net.Http;
 
 namespace Plugin.DefaultHttpClientFactory
 {
+    /// <summary>
+    /// Default HttpClientFactory
+    /// </summary>
     public class DefaultHttpClientFactory : IDefaultHttpClientFactory
     {
         private ISocketsHttpHandlerFactory _httpHandlerFactory;
@@ -55,30 +58,53 @@ namespace Plugin.DefaultHttpClientFactory
         /// SocketsHttpHandler source code
         /// https://github.com/dotnet/corefx/blob/master/src/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/SocketsHttpHandler.cs
         /// </summary>
-        public DefaultHttpClientFactory(ISocketsHttpHandlerFactory socketsHttpHandlerFactory)
+        internal DefaultHttpClientFactory(ISocketsHttpHandlerFactory socketsHttpHandlerFactory)
         {
             _httpHandlerFactory = socketsHttpHandlerFactory;
             _storeHttpMessageHandler = new Dictionary<string, HttpMessageHandler>(StringComparer.InvariantCultureIgnoreCase);
         }
 
+        /// <summary>
+        /// Create a new HttpClient
+        /// </summary>
+        /// <returns></returns>
         public HttpClient Create()
         {
             var primary = GetOrInstantiateHttpMessageHanlder();
             return InstantiateHttpClient(primary);
         }
 
+        /// <summary>
+        /// Create a new named HttpClient
+        /// </summary>
+        /// <param name="clientName">The name of the client</param>
+        /// <returns></returns>
         public HttpClient Create(string clientName)
         {
             var primary = GetOrInstantiateHttpMessageHanlder(clientName);
             return InstantiateHttpClient(primary);
         }
-
+        
+        /// <summary>
+        /// Create a new named HttpClient with fully customization of creation new HttpClient
+        /// </summary>
+        /// <param name="clientName">The name of the client</param>
+        /// <param name="httpClientFactory">A factory method of HttpClient receive the early created client and return the modified HttpClient</param>
+        /// <returns></returns>
         public HttpClient Create(string clientName, Func<HttpClient, HttpClient> httpClientFactory)
         {
             var primary = GetOrInstantiateHttpMessageHanlder(clientName);
             return httpClientFactory.Invoke(InstantiateHttpClient(primary));
         }
 
+
+        /// <summary>
+        ///  Create a new named HttpClient with fully customization of creation new HttpClient and HttpMessagehandler
+        /// </summary>
+        /// <param name="clientName">The name of the client</param>
+        /// <param name="pipelineFactory">A factory method of HttpMessageHandler pipeline. Receive the first handler and return the final pipeline</param>
+        /// <param name="httpClientFactory">A factory method of HttpClient receive the early created client and return the modified HttpClient</param>
+        /// <returns></returns>
         public HttpClient Create(string clientName, Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory, Func<HttpClient, HttpClient> httpClientFactory = null)
         {
             var pipeline = GetOrInstantiateHttpMessageHanlder(clientName, pipelineFactory);

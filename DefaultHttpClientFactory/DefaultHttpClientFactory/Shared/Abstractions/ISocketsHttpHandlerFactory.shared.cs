@@ -1,6 +1,6 @@
 ﻿namespace Plugin.DefaultHttpClientFactory
 {
-    public interface ISocketsHttpHandlerFactory
+    internal interface ISocketsHttpHandlerFactory
     {
         public ISocketsHttpHandlerBuilder Create();
     }

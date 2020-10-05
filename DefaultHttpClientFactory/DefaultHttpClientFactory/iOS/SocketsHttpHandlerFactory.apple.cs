@@ -1,21 +1,35 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Security;
 
 namespace Plugin.DefaultHttpClientFactory
 {
     internal class SocketsHttpHandlerFactory : ISocketsHttpHandlerFactory, ISocketsHttpHandlerBuilder
     {
         private SocketsHttpHandler _socketsHttpHandler;
+        private static readonly SocketsHttpHandlerFactory _singleton = new SocketsHttpHandlerFactory();
 
-        public SocketsHttpHandlerFactory()
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static SocketsHttpHandlerFactory()
         {
-            _socketsHttpHandler = new SocketsHttpHandler();
+        }
+
+        private SocketsHttpHandlerFactory()
+        {
+        }
+
+        public static ISocketsHttpHandlerFactory Instance
+            => _singleton;
+
+
+        private SocketsHttpHandlerFactory(SocketsHttpHandler socketsHttpHandler)
+        {
+            _socketsHttpHandler = socketsHttpHandler;
         }
 
         public ISocketsHttpHandlerBuilder Create()
-            => new SocketsHttpHandlerFactory();
+            => new SocketsHttpHandlerFactory(new SocketsHttpHandler());
 
         public HttpMessageHandler Build()
             => _socketsHttpHandler;

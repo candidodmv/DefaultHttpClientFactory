@@ -36,7 +36,7 @@ namespace Plugin.DefaultHttpClientFactory
                         return null;
             #else
             #pragma warning disable IDE0022 // Use expression body for methods
-                        return new DefaultHttpClientFactory(new SocketsHttpHandlerFactory());
+            return new DefaultHttpClientFactory(SocketsHttpHandlerFactory.Instance);
             #pragma warning restore IDE0022 // Use expression body for methods
             #endif
         }

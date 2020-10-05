@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Security;
 
 namespace Plugin.DefaultHttpClientFactory
 {
-    public interface ISocketsHttpHandlerBuilder
+    internal interface ISocketsHttpHandlerBuilder
     {
         public ISocketsHttpHandlerBuilder SetAllowAutoRedirect(bool value);
         public ISocketsHttpHandlerBuilder SetAllowAutoRedirect(Func<bool, bool> setterAction);

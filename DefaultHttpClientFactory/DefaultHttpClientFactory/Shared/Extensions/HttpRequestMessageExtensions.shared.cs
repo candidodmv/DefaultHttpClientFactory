@@ -1,4 +1,5 @@
-﻿using Polly;
+﻿using Plugin.DefaultHttpClientFactory.Shared.HttpPolly;
+using Polly;
 using System;
 using System.Net.Http;
 
@@ -7,7 +8,7 @@ namespace Plugin.DefaultHttpClientFactory.Shared.Extensions
     /// <summary>
     /// Extension methods for <see cref="HttpRequestMessage"/> Polly integration.
     /// </summary>
-    public static class HttpRequestMessageExtensions
+    internal static class HttpRequestMessageExtensions
     {
         internal static readonly string PolicyExecutionContextKey = "PolicyExecutionContext";
 
