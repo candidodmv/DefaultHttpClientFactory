@@ -16,8 +16,8 @@
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
-    <Version>1.0.0.0</Version>
-    <PackageVersion>1.0.0.0</PackageVersion>
+    <Version>1.0.0.0-beta-1</Version>
+    <PackageVersion>1.0.0.0-beta-1</PackageVersion>
     <PackOnBuild>true</PackOnBuild>
     <NeutralLanguage>en</NeutralLanguage>
     <LangVersion>default</LangVersion>
@@ -30,7 +30,7 @@
     <DebugType>portable</DebugType>
     
     <!--TODO: Fill these in-->
-    <PackageLicenseUrl>https://github.com/candidodmv/DefaultHttpClientFactory/blob/main/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/candidodmv/DefaultHttpClientFactory</RepositoryUrl>
     <!--
     <PackageProjectUrl>LINK TO PROJECT</PackageProjectUrl>
