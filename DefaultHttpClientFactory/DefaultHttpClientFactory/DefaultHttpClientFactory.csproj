@@ -30,21 +30,23 @@
     <DebugType>portable</DebugType>
     
     <!--TODO: Fill these in-->
-    <PackageLicenseUrl>LINK TO LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/candidodmv/DefaultHttpClientFactory/blob/main/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/candidodmv/DefaultHttpClientFactory</RepositoryUrl>
+    <!--
     <PackageProjectUrl>LINK TO PROJECT</PackageProjectUrl>
-    <RepositoryUrl>LINK TO PROJECT</RepositoryUrl>
     <PackageReleaseNotes>RELEASE NOTES</PackageReleaseNotes>
     <PackageIconUrl>ICON URL</PackageIconUrl>
-    <PackageTags>xamarin, windows, ios, android, xamarin.forms, plugin, DefaultHttpClientFactory</PackageTags>
+    -->
+    <PackageTags>xamarin, ios, android, xamarin.forms, plugin, DefaultHttpClientFactory, HttpClientFactory, HttpClient, Resilient HttpClient</PackageTags>
     
-    <Title>DefaultHttpClientFactory Plugin for Xamarin and Windows</Title>
+    <Title>DefaultHttpClientFactory Plugin for Xamarin</Title>
     <Summary>Summary of nuget</Summary>
-    <Description>Plugin Description</Description>
+    <Description>A clean and isolated version with the best praticles from HttpClientFactory + Polly (Retry policy)</Description>
     
     
-    <Owners>YOU</Owners>
-    <Authors>YOU</Authors>
-    <Copyright>Copyright 2019</Copyright>
+    <Owners>candidodmv</Owners>
+    <Authors>Vinicius Dutra</Authors>
+    <Copyright>Copyright 2020</Copyright>
 
     <!--When built in 2019 will remove extra references on pack-->
     <DisableExtraReferences>true</DisableExtraReferences>
