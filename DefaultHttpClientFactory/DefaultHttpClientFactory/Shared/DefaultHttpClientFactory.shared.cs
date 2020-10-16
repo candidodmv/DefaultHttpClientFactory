@@ -1,4 +1,6 @@
-﻿using Plugin.DefaultHttpClientFactory.Shared.Extensions;
+﻿using Plugin.DefaultHttpClientFactory.Shared;
+using Plugin.DefaultHttpClientFactory.Shared.Abstractions;
+using Plugin.DefaultHttpClientFactory.Shared.Extensions;
 using Plugin.DefaultHttpClientFactory.Shared.HttpPolly;
 using Polly;
 using Polly.Extensions.Http;
@@ -11,74 +13,23 @@ namespace Plugin.DefaultHttpClientFactory
     /// <summary>
     /// Default HttpClientFactory
     /// </summary>
-    public class DefaultHttpClientFactory : IDefaultHttpClientFactory
+    internal class DefaultHttpClientFactory : IDefaultHttpClientFactory
     {
         private ISocketsHttpHandlerFactory _httpHandlerFactory;
         private IDictionary<string, HttpMessageHandler> _storeHttpMessageHandler;
 
-
-        /// <summary>
-        /// It's part of best practicles implemented on ASP.NET Core as described/discussed on the following referenes bellow.
-        /// Use IHttpClientFactory to implement resilient HTTP requests
-        ///     * https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests
-        /// 
-        /// Using IHttpClientFactory in a DI-enabled app avoids:
-        ///     * Resource exhaustion problems by pooling HttpMessageHandler instances.
-        ///     * Stale DNS problems by cycling HttpMessageHandler instances at regular intervals.
-        ///     
-        /// There are alternative ways to solve the preceding problems using a long-lived SocketsHttpHandler instance.
-        ///     * Create an instance of SocketsHttpHandler when the app starts and use it for the life of the app.
-        ///     * Configure PooledConnectionLifetime to an appropriate value based on DNS refresh times.
-        ///     * Create HttpClient instances using new HttpClient(handler, disposeHandler: false) as needed.
-        ///     
-        /// The preceding approaches solve the resource management problems that IHttpClientFactory solves in a similar way.
-        ///     * The SocketsHttpHandler shares connections across HttpClient instances.This sharing prevents socket exhaustion.
-        ///     * The SocketsHttpHandler cycles connections according to PooledConnectionLifetime to avoid stale DNS problems.
-        ///    
-        /// Github:
-        ///     1) Make DefaultHttpClientFactory not depend on MS DI #148
-        ///         * https://github.com/aspnet/HttpClientFactory/issues/148
-        ///     2) Using HttpClientFactory without dependency injection #1345
-        ///         * https://github.com/dotnet/extensions/issues/1345
-        ///         
-        /// Benefits of using IHttpClientFactory 
-        ///     * https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#benefits-of-using-ihttpclientfactory
-        /// The current implementation of IHttpClientFactory, that also implements IHttpMessageHandlerFactory, offers the following benefits:
-        /// 
-        /// * Provides a central location for naming and configuring logical HttpClient objects. For example, you may configure a client (Service Agent) that's pre-configured to access a specific microservice.
-        /// * Codify the concept of outgoing middleware via delegating handlers in HttpClient and implementing Polly-based middleware to take advantage of Polly's policies for resiliency.
-        /// * HttpClient already has the concept of delegating handlers that could be linked together for outgoing HTTP requests.You can register HTTP clients into the factory and you can use a Polly handler to use Polly policies for Retry, CircuitBreakers, and so on.
-        /// * Manage the lifetime of HttpMessageHandler to avoid the mentioned problems/issues that can occur when managing HttpClient lifetimes yourself.
-        /// 
-        /// The HttpClient instances injected by DI, can be disposed of safely, because the associated HttpMessageHandler is managed by the factory. 
-        /// As a matter of fact, injected HttpClient instances are Scoped from a DI perspective.
-        /// Detailed documented solution: Microsoft Docs - Alternatives to IHttpClientFactory
-        /// https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.1#alternatives-to-ihttpclientfactory
-        /// 
-        /// SocketsHttpHandler source code
-        /// https://github.com/dotnet/corefx/blob/master/src/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/SocketsHttpHandler.cs
-        /// </summary>
         internal DefaultHttpClientFactory(ISocketsHttpHandlerFactory socketsHttpHandlerFactory)
         {
             _httpHandlerFactory = socketsHttpHandlerFactory;
             _storeHttpMessageHandler = new Dictionary<string, HttpMessageHandler>(StringComparer.InvariantCultureIgnoreCase);
         }
 
-        /// <summary>
-        /// Create a new HttpClient
-        /// </summary>
-        /// <returns></returns>
         public HttpClient Create()
         {
             var primary = GetOrInstantiateHttpMessageHanlder();
             return InstantiateHttpClient(primary);
         }
 
-        /// <summary>
-        /// Create a new named HttpClient
-        /// </summary>
-        /// <param name="clientName">The name of the client</param>
-        /// <returns></returns>
         public HttpClient Create(string clientName)
         {
             var primary = GetOrInstantiateHttpMessageHanlder(clientName);
@@ -86,53 +37,48 @@ namespace Plugin.DefaultHttpClientFactory
         }
         
         /// <summary>
-        /// Create a new named HttpClient with fully customization of creation new HttpClient
+        /// 
         /// </summary>
-        /// <param name="clientName">The name of the client</param>
-        /// <param name="httpClientFactory">A factory method of HttpClient receive the early created client and return the modified HttpClient</param>
+        /// <param name="clientName"></param>
         /// <returns></returns>
-        public HttpClient Create(string clientName, Func<HttpClient, HttpClient> httpClientFactory)
+        public IDefaultHttpClientBuilder CreateBuilder(string clientName)
         {
-            var primary = GetOrInstantiateHttpMessageHanlder(clientName);
-            return httpClientFactory.Invoke(InstantiateHttpClient(primary));
+            return new DefaultHttpClientBuilder(this, clientName);
         }
 
-
-        /// <summary>
-        ///  Create a new named HttpClient with fully customization of creation new HttpClient and HttpMessagehandler
-        /// </summary>
-        /// <param name="clientName">The name of the client</param>
-        /// <param name="pipelineFactory">A factory method of HttpMessageHandler pipeline. Receive the first handler and return the final pipeline</param>
-        /// <param name="httpClientFactory">A factory method of HttpClient receive the early created client and return the modified HttpClient</param>
-        /// <returns></returns>
-        public HttpClient Create(string clientName, Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory, Func<HttpClient, HttpClient> httpClientFactory = null)
+        HttpClient IDefaultHttpClientFactory.Create(string clientName, Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory, Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory, Func<HttpClient, HttpClient> httpClientFactory)
         {
-            var pipeline = GetOrInstantiateHttpMessageHanlder(clientName, pipelineFactory);
+            var pipeline = GetOrInstantiateHttpMessageHanlder(clientName, pipelineFactory, policyFactory);
             var httpClient = InstantiateHttpClient(pipeline);
             return httpClientFactory?.Invoke(httpClient) is HttpClient httpClientChanged ? httpClientChanged : httpClient;
         }
 
-        private DelegatingHandler GetRetryHandler() =>
-            new PolicyHttpMessageHandler(GetRetryPolicy());
+        private DelegatingHandler GetResilientHandler(Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null) =>
+            new PolicyHttpMessageHandler(GetResilientPolicy(policyFactory));
 
-        private IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        private IAsyncPolicy<HttpResponseMessage> GetResilientPolicy(Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null)
         {
-            return HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-                .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+            //var authEnsuringPolicy = HttpPolicyExtensions
+            //    .HandleTransientHttpError()
+            //    .OrResult(r => r.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            //    .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), onRetryAsync: async (e, i, c) => await Task.Delay(TimeSpan.FromSeconds(5)),);
+
+            var commonNetworkResilience = HttpPolicyExtensions
+                                            .HandleTransientHttpError()
+                                            .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                                            .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+            if (policyFactory != null)
+                return policyFactory.Invoke(commonNetworkResilience);
+            else
+                return commonNetworkResilience;
+
         }
 
         private HttpClient InstantiateHttpClient(HttpMessageHandler httpMessageHandler)
             => new HttpClient(httpMessageHandler, disposeHandler: false);
 
-        /// <summary>
-        /// It's a memory cache of HttpMessageHandler, here we are storing the entire pipeline for a give HttpClient based on given name
-        /// </summary>
-        /// <param name="key">The key that represent the HtttpClient</param>
-        /// <param name="pipelineFactory">A factory method to build customs pipeline</param>
-        /// <returns></returns>
-        private HttpMessageHandler GetOrInstantiateHttpMessageHanlder(string key = "default", Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory = null)
+        private HttpMessageHandler GetOrInstantiateHttpMessageHanlder(string key = "default", Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory = null, Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null)
         {
             if (_storeHttpMessageHandler.TryGetValue(key, out var recovered))
                 return recovered;
@@ -141,7 +87,7 @@ namespace Plugin.DefaultHttpClientFactory
                 var socketsHttpHandlerBuilder = _httpHandlerFactory.Create();
 
                 //we are decorating the primary message handler with a retry policy HandleTransientHttpError
-                var retryHanlder = GetRetryHandler();
+                var retryHanlder = GetResilientHandler();
                 var newOne = socketsHttpHandlerBuilder
                                 .SetPooledConnectionLifetime(TimeSpan.FromMinutes(15))
                                 .Build()
