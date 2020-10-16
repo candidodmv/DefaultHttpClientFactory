@@ -64,6 +64,9 @@
 
   <ItemGroup>
     <Compile Include="**\*.shared.cs" />
+    <Compile Include="AssemblyInfo.cs">
+      <SubType></SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
@@ -80,26 +83,22 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Polly.Extensions.Http">
-      <Version>3.0.0</Version>
+    <PackageReference Include="Polly.Extensions.Http" Version="3.0.0">
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
-    <PackageReference Include="Polly.Extensions.Http">
-      <Version>3.0.0</Version>
+    <PackageReference Include="Polly.Extensions.Http" Version="3.0.0">
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'Xamarin.iOS10'">
-    <PackageReference Include="Polly.Extensions.Http">
-      <Version>3.0.0</Version>
+    <PackageReference Include="Polly.Extensions.Http" Version="3.0.0">
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid90'">
-    <PackageReference Include="Polly.Extensions.Http">
-      <Version>3.0.0</Version>
+    <PackageReference Include="Polly.Extensions.Http" Version="3.0.0">
     </PackageReference>
   </ItemGroup>
 

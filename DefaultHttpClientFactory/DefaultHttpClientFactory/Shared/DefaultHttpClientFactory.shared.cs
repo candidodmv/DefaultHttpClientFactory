@@ -17,6 +17,7 @@ namespace Plugin.DefaultHttpClientFactory
     {
         private ISocketsHttpHandlerFactory _httpHandlerFactory;
         private IDictionary<string, HttpMessageHandler> _storeHttpMessageHandler;
+        private IDefaultHttpClientFactory Instance => this;
 
         internal DefaultHttpClientFactory(ISocketsHttpHandlerFactory socketsHttpHandlerFactory)
         {
@@ -26,14 +27,14 @@ namespace Plugin.DefaultHttpClientFactory
 
         public HttpClient Create()
         {
-            var primary = GetOrInstantiateHttpMessageHanlder();
-            return InstantiateHttpClient(primary);
+            var primary = Instance.GetOrInstantiateHttpMessageHanlder();
+            return Instance.InstantiateHttpClient(primary);
         }
 
         public HttpClient Create(string clientName)
         {
-            var primary = GetOrInstantiateHttpMessageHanlder(clientName);
-            return InstantiateHttpClient(primary);
+            var primary = Instance.GetOrInstantiateHttpMessageHanlder(clientName);
+            return Instance.InstantiateHttpClient(primary);
         }
         
         /// <summary>
@@ -48,15 +49,17 @@ namespace Plugin.DefaultHttpClientFactory
 
         HttpClient IDefaultHttpClientFactory.Create(string clientName, Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory, Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory, Func<HttpClient, HttpClient> httpClientFactory)
         {
-            var pipeline = GetOrInstantiateHttpMessageHanlder(clientName, pipelineFactory, policyFactory);
-            var httpClient = InstantiateHttpClient(pipeline);
+            var pipeline = Instance.GetOrInstantiateHttpMessageHanlder(clientName, pipelineFactory, policyFactory);
+            var httpClient = Instance.InstantiateHttpClient(pipeline);
             return httpClientFactory?.Invoke(httpClient) is HttpClient httpClientChanged ? httpClientChanged : httpClient;
         }
 
-        private DelegatingHandler GetResilientHandler(Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null) =>
-            new PolicyHttpMessageHandler(GetResilientPolicy(policyFactory));
+        DelegatingHandler IDefaultHttpClientFactory.GetResilientHandler(Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null)
+        {
+            return new PolicyHttpMessageHandler(Instance.GetResilientPolicy(policyFactory));
+        }
 
-        private IAsyncPolicy<HttpResponseMessage> GetResilientPolicy(Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null)
+        IAsyncPolicy<HttpResponseMessage> IDefaultHttpClientFactory.GetResilientPolicy(Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null)
         {
             //var authEnsuringPolicy = HttpPolicyExtensions
             //    .HandleTransientHttpError()
@@ -75,10 +78,10 @@ namespace Plugin.DefaultHttpClientFactory
 
         }
 
-        private HttpClient InstantiateHttpClient(HttpMessageHandler httpMessageHandler)
+        HttpClient IDefaultHttpClientFactory.InstantiateHttpClient(HttpMessageHandler httpMessageHandler)
             => new HttpClient(httpMessageHandler, disposeHandler: false);
 
-        private HttpMessageHandler GetOrInstantiateHttpMessageHanlder(string key = "default", Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory = null, Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null)
+        HttpMessageHandler IDefaultHttpClientFactory.GetOrInstantiateHttpMessageHanlder(string key = "default", Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory = null, Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null)
         {
             if (_storeHttpMessageHandler.TryGetValue(key, out var recovered))
                 return recovered;
@@ -87,7 +90,7 @@ namespace Plugin.DefaultHttpClientFactory
                 var socketsHttpHandlerBuilder = _httpHandlerFactory.Create();
 
                 //we are decorating the primary message handler with a retry policy HandleTransientHttpError
-                var retryHanlder = GetResilientHandler();
+                var retryHanlder = Instance.GetResilientHandler();
                 var newOne = socketsHttpHandlerBuilder
                                 .SetPooledConnectionLifetime(TimeSpan.FromMinutes(15))
                                 .Build()

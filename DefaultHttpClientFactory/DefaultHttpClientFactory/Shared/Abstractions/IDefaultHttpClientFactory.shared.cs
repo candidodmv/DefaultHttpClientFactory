@@ -68,6 +68,12 @@ namespace Plugin.DefaultHttpClientFactory
         /// <returns></returns>
         IDefaultHttpClientBuilder CreateBuilder(string clientName);
 
+        //for tests porpouses
         internal HttpClient Create(string clientName, Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory, Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory = null, Func<HttpClient, HttpClient> httpClientFactory = null);
+        internal HttpMessageHandler GetOrInstantiateHttpMessageHanlder(string key = "default", Func<HttpMessageHandler, HttpMessageHandler> pipelineFactory = null, Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null);
+        internal HttpClient InstantiateHttpClient(HttpMessageHandler httpMessageHandler);
+        internal IAsyncPolicy<HttpResponseMessage> GetResilientPolicy(Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null);
+        internal DelegatingHandler GetResilientHandler(Func<IAsyncPolicy<HttpResponseMessage>, IAsyncPolicy<HttpResponseMessage>> policyFactory = null);
+
     }
 }
