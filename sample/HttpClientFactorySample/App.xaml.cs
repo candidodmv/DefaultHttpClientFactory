@@ -6,9 +6,8 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using HttpClientFactorySample.Services;
-//using Mobile.BuildTools.Configuration;
-
-
+using HttpClientFactorySample.Helpers;
+using Mobile.BuildTools.Configuration;
 
 namespace HttpClientFactorySample
 {
@@ -22,7 +21,7 @@ namespace HttpClientFactorySample
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
+            
             await NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
@@ -31,9 +30,8 @@ namespace HttpClientFactorySample
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterSingleton<IMarvelApiService, MarvelApiService>();
             containerRegistry.RegisterInstance(Plugin.DefaultHttpClientFactory.CrossDefaultHttpClientFactory.Current);
-            //containerRegistry.RegisterInstance<IConfigurationManager>(ConfigurationManager.Current);
-
-
+            containerRegistry.RegisterInstance<IConfigurationManager>(ConfigurationManager.Current);
+            
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
         }

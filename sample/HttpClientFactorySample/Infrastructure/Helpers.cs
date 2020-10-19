@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -9,7 +8,7 @@ namespace HttpClientFactorySample.Infrastructure
     {
         private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        private static long ToTimestamp(this DateTime value)
+        public static long ToTimestamp(this DateTime value)
         {
             TimeSpan elapsedTime = value - Epoch;
             return (long)elapsedTime.TotalSeconds;
@@ -33,9 +32,8 @@ namespace HttpClientFactorySample.Infrastructure
             return sBuilder.ToString();
         }
 
-        public static string ComputeMarvelAPIHash(string privateKey, string publicKey)
+        public static string ComputeMarvelAPIHash(string ts, string privateKey, string publicKey)
         {
-            var ts = DateTime.Now.ToTimestamp();
             var hash = ComputeHashMd5($"{ts}{privateKey}{publicKey}");
             return hash;
         }

@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Mobile.BuildTools.Configuration;
 using Prism;
 using Prism.Ioc;
 
@@ -14,9 +15,10 @@ namespace HttpClientFactorySample.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
+            
             base.OnCreate(savedInstanceState);
-
+            
+            ConfigurationManager.Init(true, this);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
         }

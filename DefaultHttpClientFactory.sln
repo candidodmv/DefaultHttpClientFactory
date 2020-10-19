@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unitTestsDroid", "tests\uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unitTestsiOS", "tests\unitTestsiOS\unitTestsiOS.csproj", "{D1958801-9E79-4065-B710-459417EB5DD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientFactorySample", "sample\HttpClientFactorySample\HttpClientFactorySample.csproj", "{CF177679-C142-48EE-87FA-C281467785AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpClientFactorySample", "sample\HttpClientFactorySample\HttpClientFactorySample.csproj", "{CF177679-C142-48EE-87FA-C281467785AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientFactorySample.Android", "sample\HttpClientFactorySample.Android\HttpClientFactorySample.Android.csproj", "{89D7E55F-423C-41DB-A645-384AE83B3977}"
 EndProject

@@ -5,30 +5,30 @@
     "disable": false
   },
   "artifactCopy": {
-    "disable": false
+    "disable": true
   },
   "automaticVersioning": {
     "behavior": "PreferBuildNumber",
     "environment": "All",
     "versionOffset": 0,
-    "disable": false
+    "disable": true
   },
   "css": {
     "minify": false,
     "bundleScss": false,
-    "disable": false
+    "disable": true
   },
   "images": {
     "directories": null,
     "conditionalDirectories": null,
     "watermarkOpacity": null,
-    "disable": false
+    "disable": true
   },
   "manifests": {
     "token": "$",
     "variablePrefix": "Manifest_",
     "missingTokensAsErrors": false,
-    "disable": false
+    "disable": true
   },
   "releaseNotes": {
     "maxDays": 7,
@@ -36,8 +36,52 @@
     "characterLimit": 250,
     "filename": "ReleaseNotes.txt",
     "createInRoot": true,
-    "disable": false
+    "disable": true
   },
-  "projectSecrets": null,
+  "projectSecrets": {
+    "HttpClientFactorySample": {
+      "disable": false,
+      "delimiter": ";",
+      "prefix": "BuildTools_",
+      "className": "Secrets",
+      "namespace": "Helpers",
+      "properties": [
+	    {
+          "name": "marvelApiPublicKey",
+          "type": "String",
+          "isArray": false
+        },
+	    {
+          "name": "marvelApiPrivateKey",
+          "type": "String",
+          "isArray": false
+        },
+        {
+          "name": "SampleBool",
+          "type": "bool",
+          "isArray": false
+        },
+        {
+          "name": "SampleInt",
+          "type": "int",
+          "isArray": false
+        },
+        {
+          "name": "SampleDouble",
+          "type": "double",
+          "isArray": false
+        },
+        {
+          "name": "SampleUri",
+          "type": "Uri",
+          "isArray": false
+        },
+        {
+          "name": "SampleDateTime",
+          "type": "DateTime",
+          "isArray": false
+        }]
+    }
+  },
   "debug": false
 }
