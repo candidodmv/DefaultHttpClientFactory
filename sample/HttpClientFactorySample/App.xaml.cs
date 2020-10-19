@@ -6,7 +6,7 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using HttpClientFactorySample.Services;
-using Mobile.BuildTools.Configuration;
+//using Mobile.BuildTools.Configuration;
 
 
 
@@ -31,7 +31,7 @@ namespace HttpClientFactorySample
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterSingleton<IMarvelApiService, MarvelApiService>();
             containerRegistry.RegisterInstance(Plugin.DefaultHttpClientFactory.CrossDefaultHttpClientFactory.Current);
-            containerRegistry.RegisterInstance<IConfigurationManager>(ConfigurationManager.Current);
+            //containerRegistry.RegisterInstance<IConfigurationManager>(ConfigurationManager.Current);
 
 
             containerRegistry.RegisterForNavigation<NavigationPage>();

@@ -1,0 +1,88 @@
+<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+
+  <PropertyGroup>
+    <!--Work around so the conditions work below-->
+    <TargetFrameworks></TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;Xamarin.iOS10;MonoAndroid90</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;Xamarin.iOS10;MonoAndroid90</TargetFrameworks>
+        
+        
+    <AssemblyName>unitTestsLibrary</AssemblyName>
+    <RootNamespace>unitTestsLibrary</RootNamespace>
+    <PackageId>unitTestsLibrary</PackageId>
+    
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
+    <Version>1.0.0.0-beta-1</Version>
+    <PackageVersion>1.0.0.0-beta-1</PackageVersion>
+    <PackOnBuild>true</PackOnBuild>
+    <NeutralLanguage>en</NeutralLanguage>
+    <LangVersion>default</LangVersion>
+    <DefineConstants>$(DefineConstants);</DefineConstants>
+    
+    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+
+    <LangVersion>latest</LangVersion>
+    <DebugType>portable</DebugType>
+    
+    <!--TODO: Fill these in-->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/candidodmv/DefaultHttpClientFactory</RepositoryUrl>
+    <!--
+    <PackageProjectUrl>LINK TO PROJECT</PackageProjectUrl>
+    <PackageReleaseNotes>RELEASE NOTES</PackageReleaseNotes>
+    <PackageIconUrl>ICON URL</PackageIconUrl>
+    -->
+    <PackageTags>xamarin, ios, android, xamarin.forms, plugin, DefaultHttpClientFactory, HttpClientFactory, HttpClient, Resilient HttpClient</PackageTags>
+    
+    <Title>unitTestsLibrary</Title>
+    <Summary>Summary of nuget</Summary>
+    <Description>unitTestsLibrary</Description>
+    
+    
+    <Owners>candidodmv</Owners>
+    <Authors>Vinicius Dutra</Authors>
+    <Copyright>Copyright 2020</Copyright>
+
+    <!--When built in 2019 will remove extra references on pack-->
+    <DisableExtraReferences>true</DisableExtraReferences>
+  </PropertyGroup>
+  
+    
+    
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Moq" Version="4.14.7" />
+    <PackageReference Include="Flurl.Http" Version="2.4.2" />
+    <PackageReference Include="FakeItEasy" Version="6.2.1" />
+    <PackageReference Include="Bogus" Version="31.0.3" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+  </ItemGroup>
+    
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="NUnit" Version="3.7.0" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <Compile Include="**\*.shared.cs" />
+  </ItemGroup>
+    
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <Compile Include="**\*.android.cs" />
+    <Compile Include="**\*.device.cs" />
+    <Reference Include="Xamarin.Android.NUnitLite" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+    <Compile Include="**\*.apple.cs" />
+    <Compile Include="**\*.device.cs" />
+    <Reference Include="MonoTouch.NUnitLite" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DefaultHttpClientFactory\DefaultHttpClientFactory.csproj" />
+  </ItemGroup>
+  
+</Project>

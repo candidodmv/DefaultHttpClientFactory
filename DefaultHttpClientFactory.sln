@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultHttpClientFactory", "DefaultHttpClientFactory\DefaultHttpClientFactory.csproj", "{A626C617-26BD-488E-A107-E6F8B95B1D9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultHttpClientFactory", "src\DefaultHttpClientFactory\DefaultHttpClientFactory.csproj", "{A626C617-26BD-488E-A107-E6F8B95B1D9D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{9E1852FE-67C7-4576-AC8A-AC3B575B0084}"
 EndProject
@@ -15,11 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unitTestsDroid", "tests\uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unitTestsiOS", "tests\unitTestsiOS\unitTestsiOS.csproj", "{D1958801-9E79-4065-B710-459417EB5DD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientFactorySample", "sample\HttpClientFactorySample\HttpClientFactorySample\HttpClientFactorySample.csproj", "{CF177679-C142-48EE-87FA-C281467785AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientFactorySample", "sample\HttpClientFactorySample\HttpClientFactorySample.csproj", "{CF177679-C142-48EE-87FA-C281467785AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientFactorySample.Android", "sample\HttpClientFactorySample\HttpClientFactorySample.Android\HttpClientFactorySample.Android.csproj", "{89D7E55F-423C-41DB-A645-384AE83B3977}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientFactorySample.Android", "sample\HttpClientFactorySample.Android\HttpClientFactorySample.Android.csproj", "{89D7E55F-423C-41DB-A645-384AE83B3977}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientFactorySample.iOS", "sample\HttpClientFactorySample\HttpClientFactorySample.iOS\HttpClientFactorySample.iOS.csproj", "{0DD7A389-4E59-4DF7-8AC0-60BAF28CECAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientFactorySample.iOS", "sample\HttpClientFactorySample.iOS\HttpClientFactorySample.iOS.csproj", "{0DD7A389-4E59-4DF7-8AC0-60BAF28CECAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
