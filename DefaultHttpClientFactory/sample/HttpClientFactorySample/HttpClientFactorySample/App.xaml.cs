@@ -6,6 +6,9 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using HttpClientFactorySample.Services;
+using Mobile.BuildTools.Configuration;
+
+
 
 namespace HttpClientFactorySample
 {
@@ -26,8 +29,10 @@ namespace HttpClientFactorySample
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-            containerRegistry.RegisterSingleton<IGithubApiService, GithubApiService>();
+            containerRegistry.RegisterSingleton<IMarvelApiService, MarvelApiService>();
             containerRegistry.RegisterInstance(Plugin.DefaultHttpClientFactory.CrossDefaultHttpClientFactory.Current);
+            containerRegistry.RegisterInstance<IConfigurationManager>(ConfigurationManager.Current);
+
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

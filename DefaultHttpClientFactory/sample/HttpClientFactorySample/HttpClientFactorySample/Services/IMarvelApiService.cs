@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HttpClientFactorySample.Services
 {
-    public interface IGithubApiService
+    public interface IMarvelApiService
     {
     }
 }

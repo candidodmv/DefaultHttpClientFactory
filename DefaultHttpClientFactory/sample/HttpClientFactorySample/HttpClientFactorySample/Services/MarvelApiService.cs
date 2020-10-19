@@ -5,11 +5,11 @@ using System.Text;
 
 namespace HttpClientFactorySample.Services
 {
-    public class GithubApiService : IGithubApiService
+    public class MarvelApiService : IMarvelApiService
     {
         private readonly IDefaultHttpClientFactory _defaultHttpClientFactory;
 
-        public GithubApiService(IDefaultHttpClientFactory defaultHttpClientFactory)
+        public MarvelApiService(IDefaultHttpClientFactory defaultHttpClientFactory)
         {
             _defaultHttpClientFactory = defaultHttpClientFactory;
         }

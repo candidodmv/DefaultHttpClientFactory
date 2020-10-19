@@ -12,9 +12,9 @@ namespace HttpClientFactorySample.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private readonly IGithubApiService _githubApiService;
+        private readonly IMarvelApiService _githubApiService;
 
-        public MainPageViewModel(INavigationService navigationService, IGithubApiService githubApiService)
+        public MainPageViewModel(INavigationService navigationService, IMarvelApiService githubApiService)
             : base(navigationService)
         {
             Title = "Main Page";
