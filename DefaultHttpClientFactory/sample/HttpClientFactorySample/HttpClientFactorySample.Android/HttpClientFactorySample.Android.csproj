@@ -120,7 +120,7 @@
       <Name>DefaultHttpClientFactory</Name>
     </ProjectReference>
     <ProjectReference Include="..\HttpClientFactorySample\HttpClientFactorySample.csproj">
-      <Project>{A682884C-CB44-4A89-B752-27BB634E0ABE}</Project>
+      <Project>{CF177679-C142-48EE-87FA-C281467785AD}</Project>
       <Name>HttpClientFactorySample</Name>
     </ProjectReference>
   </ItemGroup>

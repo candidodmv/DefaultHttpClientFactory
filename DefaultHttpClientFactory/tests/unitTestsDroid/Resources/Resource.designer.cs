@@ -25,28 +25,6 @@ namespace unitTestsDroid
 		
 		public static void UpdateIdValues()
 		{
-			global::unitTestsLibrary.Resource.Id.OptionHostName = global::unitTestsDroid.Resource.Id.OptionHostName;
-			global::unitTestsLibrary.Resource.Id.OptionPort = global::unitTestsDroid.Resource.Id.OptionPort;
-			global::unitTestsLibrary.Resource.Id.OptionRemoteServer = global::unitTestsDroid.Resource.Id.OptionRemoteServer;
-			global::unitTestsLibrary.Resource.Id.OptionsButton = global::unitTestsDroid.Resource.Id.OptionsButton;
-			global::unitTestsLibrary.Resource.Id.ResultFullName = global::unitTestsDroid.Resource.Id.ResultFullName;
-			global::unitTestsLibrary.Resource.Id.ResultMessage = global::unitTestsDroid.Resource.Id.ResultMessage;
-			global::unitTestsLibrary.Resource.Id.ResultResultState = global::unitTestsDroid.Resource.Id.ResultResultState;
-			global::unitTestsLibrary.Resource.Id.ResultRunSingleMethodTest = global::unitTestsDroid.Resource.Id.ResultRunSingleMethodTest;
-			global::unitTestsLibrary.Resource.Id.ResultsFailed = global::unitTestsDroid.Resource.Id.ResultsFailed;
-			global::unitTestsLibrary.Resource.Id.ResultsId = global::unitTestsDroid.Resource.Id.ResultsId;
-			global::unitTestsLibrary.Resource.Id.ResultsIgnored = global::unitTestsDroid.Resource.Id.ResultsIgnored;
-			global::unitTestsLibrary.Resource.Id.ResultsInconclusive = global::unitTestsDroid.Resource.Id.ResultsInconclusive;
-			global::unitTestsLibrary.Resource.Id.ResultsMessage = global::unitTestsDroid.Resource.Id.ResultsMessage;
-			global::unitTestsLibrary.Resource.Id.ResultsPassed = global::unitTestsDroid.Resource.Id.ResultsPassed;
-			global::unitTestsLibrary.Resource.Id.ResultsResult = global::unitTestsDroid.Resource.Id.ResultsResult;
-			global::unitTestsLibrary.Resource.Id.ResultStackTrace = global::unitTestsDroid.Resource.Id.ResultStackTrace;
-			global::unitTestsLibrary.Resource.Id.RunTestsButton = global::unitTestsDroid.Resource.Id.RunTestsButton;
-			global::unitTestsLibrary.Resource.Id.TestSuiteListView = global::unitTestsDroid.Resource.Id.TestSuiteListView;
-			global::unitTestsLibrary.Resource.Layout.options = global::unitTestsDroid.Resource.Layout.options;
-			global::unitTestsLibrary.Resource.Layout.results = global::unitTestsDroid.Resource.Layout.results;
-			global::unitTestsLibrary.Resource.Layout.test_result = global::unitTestsDroid.Resource.Layout.test_result;
-			global::unitTestsLibrary.Resource.Layout.test_suite = global::unitTestsDroid.Resource.Layout.test_suite;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionHostName = global::unitTestsDroid.Resource.Id.OptionHostName;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionPort = global::unitTestsDroid.Resource.Id.OptionPort;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionRemoteServer = global::unitTestsDroid.Resource.Id.OptionRemoteServer;
