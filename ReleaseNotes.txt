@@ -1,0 +1,10 @@
+*  restructure folders
+ *  updates sample
+
+ *  initial adjusts sample app
+ *  start unit tests
+ *  simplify composition(building) with DefaultHttpClientBuilder
+ *  add sample and test projects
+
+ *  restructure folders
+ *  updates sample

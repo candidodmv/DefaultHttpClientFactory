@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MobileBuildToolsConfig Remove="app.debug.config" />
+    <MobileBuildToolsConfig Remove="app.release.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mobile.BuildTools" Version="2.0.0.1007-pre" />
+    <PackageReference Include="Mobile.BuildTools.Configuration" Version="2.0.0.1007-pre" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1239" />
+    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.5.3.2" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DefaultHttpClientFactory\DefaultHttpClientFactory.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,87 @@
+{
+  "$schema": "https://mobilebuildtools.com/schemas/v2/buildtools.schema.json",
+  "appConfig": {
+    "strategy": "TransformOnly",
+    "disable": false
+  },
+  "artifactCopy": {
+    "disable": true
+  },
+  "automaticVersioning": {
+    "behavior": "PreferBuildNumber",
+    "environment": "All",
+    "versionOffset": 0,
+    "disable": true
+  },
+  "css": {
+    "minify": false,
+    "bundleScss": false,
+    "disable": true
+  },
+  "images": {
+    "directories": null,
+    "conditionalDirectories": null,
+    "watermarkOpacity": null,
+    "disable": true
+  },
+  "manifests": {
+    "token": "$",
+    "variablePrefix": "Manifest_",
+    "missingTokensAsErrors": false,
+    "disable": true
+  },
+  "releaseNotes": {
+    "maxDays": 7,
+    "maxCommit": 10,
+    "characterLimit": 250,
+    "filename": "ReleaseNotes.txt",
+    "createInRoot": true,
+    "disable": true
+  },
+  "projectSecrets": {
+    "HttpClientFactorySample": {
+      "disable": false,
+      "delimiter": ";",
+      "prefix": "BuildTools_",
+      "className": "Secrets",
+      "namespace": "Helpers",
+      "properties": [
+	    {
+          "name": "marvelApiPublicKey",
+          "type": "String",
+          "isArray": false
+        },
+	    {
+          "name": "marvelApiPrivateKey",
+          "type": "String",
+          "isArray": false
+        },
+        {
+          "name": "SampleBool",
+          "type": "bool",
+          "isArray": false
+        },
+        {
+          "name": "SampleInt",
+          "type": "int",
+          "isArray": false
+        },
+        {
+          "name": "SampleDouble",
+          "type": "double",
+          "isArray": false
+        },
+        {
+          "name": "SampleUri",
+          "type": "Uri",
+          "isArray": false
+        },
+        {
+          "name": "SampleDateTime",
+          "type": "DateTime",
+          "isArray": false
+        }]
+    }
+  },
+  "debug": false
+}
